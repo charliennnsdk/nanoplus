@@ -1,0 +1,96 @@
+ul.media-list
+	list-style: none
+	padding: 0
+	margin: 0
+	overflow-x: hidden
+	li.active
+		.media-list__main
+			background: $color-pictonblue
+			color: $color-white
+			a:hover,
+			span:hover
+				color: $color-white
+			&:hover
+				color: inherit
+	li.old
+		opacity: .4
+	li:hover
+		opacity: 1
+		> .media-list__main
+			background: $color-catskillwhite
+	li:hover:not(.mobile),
+	li.selected
+		.media-list__controls
+			display: flex
+			align-items: center
+.media-list__main
+	position: relative
+	height: $touch-size-large
+	padding: 0 $grid-space
+	display: flex
+	align-items: center
+	transition: all $transition-time
+	&.error
+		.media-list__body
+			text-decoration: line-through
+	&.selected
+		background: $color-aluminium
+
+
+.media-list__thumbnail
+	cursor: move
+	width: $touch-size-medium
+	height: $touch-size-medium
+	background-color: $color-athensgrey
+	background-size: cover
+	background-position: center
+	border-radius: 50%
+	margin-right: $grid-space
+
+
+.media-list__album-hint
+	font-size: 0.5em
+	position: absolute
+	left: $touch-size-medium
+	bottom: 0
+	width: #{2 * $grid-space}
+	height: #{2 * $grid-space}
+.media-list__body
+	display: flex
+	flex-direction: column
+	justify-content: center
+	flex: 1
+	overflow-x: hidden
+	height: 100%
+	.media-list__name
+		line-height: 1.2em
+		white-space: nowrap
+		overflow: hidden
+		text-overflow: ellipsis
+	.media-list__duration
+		color: $color-aluminium-dark
+.mobile
+	.media-list__controls
+		span
+			width: $touch-size-small
+			height: $touch-size-small
+.media-list__controls
+	display: none
+	> div
+		display: flex
+	span
+		cursor: pointer
+		transition: all $transition-time
+		&:hover
+			color: $color-pictonblue
+.media-list__tracks
+	list-style: none
+	display: none
+	padding: 0
+	&.active
+		display: block
+.media-list__show-tracks
+	transition: all $transition-time
+	transform: rotate(-90deg)
+	&.active
+		transform: rotate(0deg)

@@ -1,0 +1,98 @@
+.audius,
+.web-app
+	.button-group
+		display: flex
+		justify-content: center
+		align-items: center
+		> *
+			margin-right: $grid-space
+	.button
+		display: inline-flex
+		font-family: 'Nobile', sans-serif
+		font-size: 1em
+		padding: 0 $grid-space
+		height: $touch-size-small
+		border: 1px solid $color-aluminium
+		color: $color-aluminium
+		background: transparent
+		text-transform: uppercase
+		border-radius: $border-radius
+		transition: all $transition-time
+		outline: 0
+		align-items: center
+		cursor: pointer
+		&.btn--blue-ghost
+			border-color: $color-pictonblue
+			background: transparent
+			color: $color-pictonblue
+		&.btn--blue
+			border-color: $color-pictonblue
+			background: $color-pictonblue
+			color: $color-white
+		&.disabled,
+		&[disabled="disabled"]
+			cursor: pointer
+			background-color: $color-aluminium
+			border: 1px solid $color-aluminium
+		&.disabled
+			pointer-events: none
+		[class^="wmp-icon"]
+			width: $touch-size-tiny
+			height: $touch-size-tiny
+	a.button
+		text-decoration: none
+	select
+		background: transparent
+		border: 1px solid $color-aluminium
+		height: $touch-size-small
+		display: block
+		width: 100%
+		font-size: 1em
+	[type='checkbox']
+		display: none
+		& + label
+			// @extend .icon-checkmark
+			// reset foundation
+			margin-left: 0
+			position: relative
+			display: inline-flex
+			align-items: center
+			height: $touch-size-tiny
+			min-width: $touch-size-tiny
+			padding-right: $grid-space
+			cursor: pointer
+			&:before
+				content: ' '
+				font-family: 'shoutr'
+				font-size: 1rem
+				width: $touch-size-extratiny
+				height: $touch-size-extratiny
+				line-height: $touch-size-extratiny
+				margin-right: $grid-space
+				transition: $transition-time
+				color: $color-white
+				border: 1px solid $color-pictonblue
+				border-radius: 2px
+				background-color: $color-white
+		&:checked +label:before
+			background-color: $color-pictonblue
+			content: ''
+			// use a better icon from e.g. a icomoon.com font here
+			// content: '✓'
+		&:disabled +label
+			pointer-events: none
+			&:before
+				border-color: $color-aluminium
+		&:disabled:checked +label:before
+			background-color: $color-aluminium
+
+	input
+		height: $touch-size-small
+		font-size: 1rem
+		border: 0
+		font-family: 'Nobile', sans-serif
+		&[disabled="disabled"]
+			background-color: $color-athensgrey
+		&.input--border
+			border: 1px solid $color-aluminium
+			padding: 0 $grid-space

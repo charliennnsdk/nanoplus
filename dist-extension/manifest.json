@@ -1,0 +1,42 @@
+{
+	"name": "Audius",
+	"description": "Audius - the ultimate streaming music player.",
+	"version": "2.0.11",
+	"permissions": [
+		"tabs",
+		"activeTab",
+		"notifications"
+	],
+	"background": {
+		"page": "background.html",
+		"persistent": true
+	},
+	"sandbox": {
+		"pages": [
+			"plugins-sandbox.html"
+		]
+	},
+	"content_scripts": [
+		{
+			"matches": [
+				"http://*/*",
+				"https://*/*",
+				"file://*/*",
+				"*://*/*"
+			],
+			"js": [
+				"content.js"
+			],
+			"run_at": "document_end"
+		}
+	],
+	"browser_action": {
+		"default_title": "🔎 Find music 🎶 on this site with Audius."
+	},
+	"icons": {
+		"16": "img/audius.logo16.png",
+		"48": "img/audius.logo48.png",
+		"128": "img/audius.logo128.png"
+	},
+	"manifest_version": 2
+}
