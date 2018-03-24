@@ -182,7 +182,7 @@ export default {
 			@add="dropAdd"
 			:options="{ sort: false, handle: '.no-handle', group: { name: 'lists' } }">
 			<div>
-				Your playlist is empty
+				 재생목록이비어있.
 			</div>
 			<div>
 				Find music and videos you love <br>
