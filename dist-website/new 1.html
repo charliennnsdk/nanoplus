@@ -1,0 +1,1580 @@
+<html><head>
+	<meta charset="UTF-8">
+	<title>나노 플러스</title>
+	<link rel="manifest" href="manifest.json">
+	<script type="text/javascript" id="www-widgetapi-script" src="https://s.ytimg.com/yts/jsbin/www-widgetapi-vflCkIv2v/www-widgetapi.js" async=""></script><script src="app.js?v=2.0.11.0000" type="text/javascript" charset="utf-8"></script>
+	<link rel="shortcut icon" href="img/audius.logo192.png">
+	<meta property="og:title" content="Audius">
+	<meta property="og:description" content="Audius is the ultimate streaming music player.">
+	<meta property="og:image" itemprop="image" content="https://audius.rockdapus.org/img/audius.interface.preview.png">
+	<meta property="og:type" content="website">
+	<!-- Hey there, you are interested in the source code? -->
+	<!-- Head over to https://github.com/select/audius and check it out, it's open source! -->
+	<!-- Questions? Join me in the audius matrix room https://riot.im/app/#/room/#audius:matrix.org  -->
+<style type="text/css">@import url(https://fonts.googleapis.com/css?family=Nobile);</style><style type="text/css">
+@charset "UTF-8";
+html {
+  font-size: 2.3vmin;
+}
+@media screen and (max-aspect-ratio: 3 / 4) {
+html {
+    font-size: 4.7vmin;
+}
+}
+@media screen and (min-height: 1800px) {
+html {
+    font-size: 41px;
+}
+}
+@media tv {
+html {
+    font-size: 2.3vmin;
+}
+}
+.smaller {
+  font-size: .8rem;
+}
+.audius .button-group,
+.web-app .button-group {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.audius .button-group > *,
+  .web-app .button-group > * {
+    margin-right: 0.45rem;
+}
+.audius .button,
+.web-app .button {
+  display: inline-flex;
+  font-family: 'Nobile', sans-serif;
+  font-size: 1em;
+  padding: 0 0.45rem;
+  height: 2.25rem;
+  border: 1px solid #C8CCD5;
+  color: #C8CCD5;
+  background: transparent;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: all 250ms;
+  outline: 0;
+  align-items: center;
+  cursor: pointer;
+}
+.audius .button.btn--blue-ghost,
+  .web-app .button.btn--blue-ghost {
+    border-color: #2DA7EF;
+    background: transparent;
+    color: #2DA7EF;
+}
+.audius .button.btn--blue,
+  .web-app .button.btn--blue {
+    border-color: #2DA7EF;
+    background: #2DA7EF;
+    color: #fff;
+}
+.audius .button.disabled, .audius .button[disabled="disabled"],
+  .web-app .button.disabled,
+  .web-app .button[disabled="disabled"] {
+    cursor: pointer;
+    background-color: #C8CCD5;
+    border: 1px solid #C8CCD5;
+}
+.audius .button.disabled,
+  .web-app .button.disabled {
+    pointer-events: none;
+}
+.audius .button [class^="wmp-icon"],
+  .web-app .button [class^="wmp-icon"] {
+    width: 1.8rem;
+    height: 1.8rem;
+}
+.audius a.button,
+.web-app a.button {
+  text-decoration: none;
+}
+.audius select,
+.web-app select {
+  background: transparent;
+  border: 1px solid #C8CCD5;
+  height: 2.25rem;
+  display: block;
+  width: 100%;
+  font-size: 1em;
+}
+.audius [type='checkbox'],
+.web-app [type='checkbox'] {
+  display: none;
+}
+.audius [type='checkbox'] + label,
+  .web-app [type='checkbox'] + label {
+    margin-left: 0;
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    height: 1.8rem;
+    min-width: 1.8rem;
+    padding-right: 0.45rem;
+    cursor: pointer;
+}
+.audius [type='checkbox'] + label:before,
+    .web-app [type='checkbox'] + label:before {
+      content: ' ';
+      font-family: 'shoutr';
+      font-size: 1rem;
+      width: 1.35rem;
+      height: 1.35rem;
+      line-height: 1.35rem;
+      margin-right: 0.45rem;
+      transition: 250ms;
+      color: #fff;
+      border: 1px solid #2DA7EF;
+      border-radius: 2px;
+      background-color: #fff;
+}
+.audius [type='checkbox']:checked + label:before,
+  .web-app [type='checkbox']:checked + label:before {
+    background-color: #2DA7EF;
+    content: '';
+}
+.audius [type='checkbox']:disabled + label,
+  .web-app [type='checkbox']:disabled + label {
+    pointer-events: none;
+}
+.audius [type='checkbox']:disabled + label:before,
+    .web-app [type='checkbox']:disabled + label:before {
+      border-color: #C8CCD5;
+}
+.audius [type='checkbox']:disabled:checked + label:before,
+  .web-app [type='checkbox']:disabled:checked + label:before {
+    background-color: #C8CCD5;
+}
+.audius input,
+.web-app input {
+  height: 2.25rem;
+  font-size: 1rem;
+  border: 0;
+  font-family: 'Nobile', sans-serif;
+}
+.audius input[disabled="disabled"],
+  .web-app input[disabled="disabled"] {
+    background-color: #E2E4E9;
+}
+.audius input.input--border,
+  .web-app input.input--border {
+    border: 1px solid #C8CCD5;
+    padding: 0 0.45rem;
+}
+@font-face {
+  font-family: 'WampIcons';
+  src: url(data:application/x-font-ttf;base64,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);
+  font-weight: normal;
+  font-style: normal;
+}
+[class^="wmp-icon-"], [class*=" wmp-icon-"] {
+  text-align: center;
+  position: relative;
+  width: 3.15rem;
+  height: 3.15rem;
+  display: inline-block;
+}
+[class^="wmp-icon-"]:before, [class*=" wmp-icon-"]:before {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-family: 'WampIcons' !important;
+    position: absolute;
+    font-size: 1.7em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+.icon--small:before {
+  font-size: 1.2em;
+}
+.wmp-icon-vimeo:before {
+  content: "\E905";
+}
+.wmp-icon-whatsapp:before {
+  content: "\E907";
+}
+.wmp-icon-youtube:before {
+  content: "\E906";
+}
+.wmp-icon-facebook:before {
+  content: "\E908";
+}
+.wmp-icon-twitter:before {
+  content: "\E909";
+}
+.wmp-icon-fullscreen:before {
+  content: "\E902";
+}
+.wmp-icon-fullscreen_exit:before {
+  content: "\E903";
+}
+.wmp-icon-share:before {
+  content: "\E904";
+}
+.wmp-icon-album:before {
+  content: "\E901";
+}
+.wmp-icon-sort:before {
+  content: "\E164";
+}
+.wmp-icon-zoom_out_map:before {
+  content: "\E56B";
+}
+.wmp-icon-queue_music:before {
+  content: "\E03E";
+}
+.wmp-icon-mode_edit:before {
+  content: "\E254";
+}
+.wmp-icon-format_list_bulleted:before {
+  content: "\E242";
+}
+.wmp-icon-dehaze:before {
+  content: "\E3C7";
+}
+.wmp-icon-reorder:before {
+  content: "\E8FE";
+}
+.wmp-icon-more_vert:before {
+  content: "\E5D4";
+}
+.wmp-icon-unfold_more:before {
+  content: "\E5D7";
+}
+.wmp-icon-arrow_drop_down:before {
+  content: "\E5C5";
+}
+.wmp-icon-arrow_drop_up:before {
+  content: "\E5C7";
+}
+.wmp-icon-previous:before {
+  content: "\E045";
+}
+.wmp-icon-play:before {
+  content: "\E037";
+}
+.wmp-icon-pause:before {
+  content: "\E034";
+}
+.wmp-icon-next:before {
+  content: "\E044";
+}
+.wmp-icon-shuffle:before {
+  content: "\E043";
+}
+.wmp-icon-repeat:before {
+  content: "\E040";
+}
+.wmp-icon-repeat_one:before {
+  content: "\E041";
+}
+.wmp-icon-volume_off:before {
+  content: "\E04F";
+}
+.wmp-icon-volume_up:before {
+  content: "\E050";
+}
+.wmp-icon-search:before {
+  content: "\E8B6";
+}
+.wmp-icon-close:before {
+  content: "\E5CD";
+}
+.wmp-icon-add:before {
+  content: "\E900";
+}
+.wmp-icon-queue2:before {
+  content: "\E03D";
+}
+.wmp-icon-copy:before {
+  content: "\E14D";
+}
+.wmp-icon-local_offer22:before {
+  content: "\E550";
+}
+.wmp-icon-link:before {
+  content: "\E157";
+}
+.wmp-icon-delete:before {
+  content: "\E872";
+}
+.wmp-icon-cloud_upload:before {
+  content: "\E2C3";
+}
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+}
+.modal__body {
+  background: #fff;
+  padding: 0.9rem 1.8rem;
+  max-width: 90%;
+  width: 31.5rem;
+}
+.modal__btn-group {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1.35rem;
+}
+ul.tabs {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  width: 100%;
+  min-height: 2.25rem;
+}
+ul.tabs li {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #EFF1F7;
+    color: #A8ADB7;
+    cursor: pointer;
+    text-transform: uppercase;
+    white-space: nowrap;
+    font-size: 0.7em;
+    transition: all 250ms;
+}
+ul.tabs li.active, ul.tabs li:hover {
+      background: #C8CCD5;
+      color: #fff;
+}
+.box-1-1 {
+  display: flex;
+}
+.box-1-1 > * {
+    flex: 1;
+}
+.input-list {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.input-list li {
+    display: flex;
+    align-items: center;
+    height: 3.15rem;
+    justify-content: space-between;
+    padding: 0 0.45rem;
+}
+.input-list li:hover .input-list__menu {
+      display: block;
+}
+.input-list li > div:first-child {
+      flex: 1;
+      word-break: break-all;
+}
+.input-list li:nth-child(even) {
+    background: #EFF1F7;
+}
+.input-list li:hover {
+    background: #E2E4E9;
+}
+.input-list .wmp-icon-add {
+    color: #C8CCD5;
+    cursor: pointer;
+}
+.input-list input {
+    flex: 1;
+    background: transparent;
+    border: none;
+}
+.input-list__menu {
+  display: none;
+  cursor: pointer;
+}
+ul.media-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  overflow-x: hidden;
+}
+ul.media-list li.active .media-list__main {
+    background: #2DA7EF;
+    color: #fff;
+}
+ul.media-list li.active .media-list__main a:hover,
+    ul.media-list li.active .media-list__main span:hover {
+      color: #fff;
+}
+ul.media-list li.active .media-list__main:hover {
+      color: inherit;
+}
+ul.media-list li.old {
+    opacity: .4;
+}
+ul.media-list li:hover {
+    opacity: 1;
+}
+ul.media-list li:hover > .media-list__main {
+      background: #EFF1F7;
+}
+ul.media-list li:hover:not(.mobile) .media-list__controls,
+  ul.media-list li.selected .media-list__controls {
+    display: flex;
+    align-items: center;
+}
+.media-list__main {
+  position: relative;
+  height: 3.6rem;
+  padding: 0 0.45rem;
+  display: flex;
+  align-items: center;
+  transition: all 250ms;
+}
+.media-list__main.error .media-list__body {
+    text-decoration: line-through;
+}
+.media-list__main.selected {
+    background: #C8CCD5;
+}
+.media-list__thumbnail {
+  cursor: move;
+  width: 3.15rem;
+  height: 3.15rem;
+  background-color: #E2E4E9;
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  margin-right: 0.45rem;
+}
+.media-list__album-hint {
+  font-size: 0.5em;
+  position: absolute;
+  left: 3.15rem;
+  bottom: 0;
+  width: 0.9rem;
+  height: 0.9rem;
+}
+.media-list__body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+  overflow-x: hidden;
+  height: 100%;
+}
+.media-list__body .media-list__name {
+    line-height: 1.2em;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.media-list__body .media-list__duration {
+    color: #A8ADB7;
+}
+.mobile .media-list__controls span {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+.media-list__controls {
+  display: none;
+}
+.media-list__controls > div {
+    display: flex;
+}
+.media-list__controls span {
+    cursor: pointer;
+    transition: all 250ms;
+}
+.media-list__controls span:hover {
+      color: #2DA7EF;
+}
+.media-list__tracks {
+  list-style: none;
+  display: none;
+  padding: 0;
+}
+.media-list__tracks.active {
+    display: block;
+}
+.media-list__show-tracks {
+  transition: all 250ms;
+  transform: rotate(-90deg);
+}
+.media-list__show-tracks.active {
+    transform: rotate(0deg);
+}
+* {
+  box-sizing: border-box;
+}
+body,
+html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  font-family: 'Nobile', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #303641;
+  margin: 0;
+}
+body a {
+    color: #303641;
+}
+body a:visited {
+      color: #303641;
+}
+body input:focus {
+    outline: 0;
+}
+body ::-webkit-scrollbar {
+    width: 0.54rem;
+}
+body ::-webkit-scrollbar-track {
+    background: #EFF1F7;
+}
+body ::-webkit-scrollbar-thumb {
+    background: #A8ADB7;
+}
+#app {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.web-app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.web-app__desktop {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+main.box {
+  flex: 1;
+  display: flex;
+  height: 100%;
+  overflow: hidden;
+}
+.web-app__main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+.web-app__main > div {
+    overflow: hidden;
+}
+.web-app__main > div:first-child {
+      flex: 1;
+      border-right: 1px solid #C8CCD5;
+}
+</style><style type="text/css">
+header {
+  width: 100%;
+  position: relative;
+}
+.au-header__logo {
+  width: 9rem;
+}
+.au-header__search {
+  padding-left: 0.9rem;
+  color: #fff;
+  height: 3.15rem;
+  background: #2DA7EF;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.au-header__search h1 {
+    font-weight: 100;
+    padding-left: 0.9rem;
+}
+.au-header__control-bar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0.9rem;
+}
+.au-header__current-song {
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+  flex-direction: row;
+  align-items: center;
+}
+.au-header__current-song > div {
+    flex-direction: column;
+}
+.au-header__current-song .au-header__current-song-name {
+    font-size: 1.1em;
+}
+.au-header__current-song .au-header__current-song-time {
+    color: #A8ADB7;
+}
+.au-header__search-controls {
+  display: flex;
+  align-items: center;
+}
+.au-header__search-controls [class^='wmp-icon-'] {
+    cursor: pointer;
+}
+.au-header__search-input-group {
+  height: 2.25rem;
+  display: flex;
+  align-items: center;
+  transition: all 250ms;
+  border-radius: 2px;
+  background: rgba(255, 255, 255, 0.3);
+  margin-right: 0.45rem;
+}
+.au-header__search-input-group.active {
+    background: #fff;
+    color: #2DA7EF;
+}
+.au-header__search-input-group.active input {
+      width: 18em;
+}
+.au-header__search-input-group.active input::-webkit-input-placeholder {
+        color: #2DA7EF;
+}
+.au-header__search-input-group.active input:-moz-placeholder {
+        color: #2DA7EF;
+}
+.au-header__search-input-group.active input::-moz-placeholder {
+        color: #2DA7EF;
+}
+.au-header__search-input-group input {
+    color: #2DA7EF;
+    background: transparent;
+    font-size: 1em;
+    width: 8em;
+}
+.au-header__search-input-group input::-webkit-input-placeholder {
+      color: #fff;
+}
+.au-header__search-input-group input:-moz-placeholder {
+      color: #fff;
+}
+.au-header__search-input-group input::-moz-placeholder {
+      color: #fff;
+}
+.au-header__controls {
+  height: 4.05rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.au-header__controls[disabled] span {
+    color: #E2E4E9;
+    pointer-events: none;
+}
+.au-header__controls span {
+    cursor: pointer;
+}
+.au-header__controls span[disabled] {
+      color: #E2E4E9;
+      pointer-events: none;
+}
+.au-header__controls .spacer {
+    width: 0.9rem;
+}
+.au-header__controls .au-header__play-pause {
+    height: 3.15rem;
+}
+.au-header__controls .au-header__play-pause span:before {
+      font-size: 2.5em;
+}
+.au-header__controls .au-header__mute[disabled] {
+    color: #E2E4E9;
+    pointer-events: none;
+}
+.au-header__controls .au-header__controls-small {
+    display: flex;
+    align-items: center;
+}
+.au-header__controls .au-header__controls-small div {
+      height: 3.15rem;
+}
+.au-header__controls .au-header__controls-small span:before {
+      font-size: 1.5em;
+}
+.au-header__shuffle,
+.au-header__repeat {
+  color: #E2E4E9;
+}
+.au-header__shuffle.active,
+  .au-header__shuffle .active,
+  .au-header__repeat.active,
+  .au-header__repeat .active {
+    color: #000;
+}
+</style><style type="text/css">
+.au-header__progress {
+  position: absolute;
+  z-index: 1;
+  bottom: 0;
+  width: 100%;
+  height: 0.9rem;
+  transition: all 250ms;
+  cursor: pointer;
+  background: transparent;
+  display: flex;
+}
+.au-header__progress:hover .au-header__progress-mouse,
+  .au-header__progress:hover .au-header__progress-limit-stop,
+  .au-header__progress:hover .au-header__progress-limit-start {
+    display: block;
+}
+.au-header__progress:hover .au-header__progress-current:after {
+    content: '';
+    width: 0.9rem;
+    height: 0.9rem;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -0.315rem;
+    right: -3px;
+    background: #2DA7EF;
+}
+.au-header__progress-inner {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 0.225rem;
+  background: #C8CCD5;
+}
+.au-header__progress-current {
+  position: relative;
+  background: #2DA7EF;
+  height: 100%;
+  height: 0.225rem;
+}
+.au-header__progress-mouse {
+  display: none;
+  width: 0.45rem;
+  height: 0.45rem;
+  background: #f07100;
+  position: absolute;
+  bottom: -0.09rem;
+  border-radius: 50%;
+}
+.au-header__progress-limit-stop,
+.au-header__progress-limit-start {
+  display: none;
+  position: absolute;
+  bottom: 0;
+  width: 1.35rem;
+  height: 1.35rem;
+  border: 2px solid #A8ADB7;
+  border-top-color: transparent;
+  cursor: ew-resize;
+}
+.au-header__progress-limit-stop:hover,
+  .au-header__progress-limit-start:hover {
+    border-color: #f07100;
+    border-top-color: transparent;
+}
+.au-header__progress-limit-start.au-header__progress-limit-start {
+  left: 0;
+  border-right-color: transparent;
+}
+.au-header__progress-limit-stop.au-header__progress-limit-stop {
+  right: 0;
+  border-left-color: transparent;
+}
+</style><style type="text/css">
+.left-menu {
+  position: relative;
+  width: 25vw;
+  margin-left: 0;
+  transition: all 250ms;
+  background: #A8ADB7;
+  border-right: 1px solid #C8CCD5;
+  display: flex;
+  flex-direction: column;
+}
+.left-menu.hide {
+    margin-left: -24.5vw;
+    width: 25vw !important;
+}
+.left-menu__wrapper {
+  height: 100%;
+  overflow-y: auto;
+}
+.left-menu__wrapper::-webkit-scrollbar-thumb {
+    background: #E2E4E9;
+}
+.left-menu__wrapper::-webkit-scrollbar-track {
+    background: #A8ADB7;
+}
+.left-menu__drag-handle {
+  width: 0.225rem;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: -0.1125rem;
+  background: transparent;
+  cursor: ew-resize;
+  user-select: none;
+}
+.nav-handle {
+  position: absolute;
+  top: calc(50% - 1.125rem);
+  right: -2em;
+  cursor: pointer;
+  z-index: 1;
+}
+.nav-handle:hover span {
+    color: #A8ADB7;
+}
+.nav-handle:hover .nav-handle__tab {
+    background: #EFF1F7;
+}
+.nav-handle span {
+    color: #EFF1F7;
+    width: 2.25rem;
+    height: 2.25rem;
+}
+.nav-handle__tab {
+  height: 2em;
+  width: 2.5em;
+  position: absolute;
+  top: 0.1em;
+  left: 0.2em;
+  transform: rotate(90deg) perspective(2em) rotateX(30deg);
+  background: #A8ADB7;
+  border-bottom: 0;
+}
+.left-menu__tag-name-input {
+  height: 1.35rem;
+}
+</style><style type="text/css">
+.play-list-manager__wrapper {
+  flex: 1;
+  overflow-y: auto;
+}
+.play-list-manager__wrapper::-webkit-scrollbar-thumb {
+    background: #E2E4E9;
+}
+.play-list-manager__wrapper::-webkit-scrollbar-track {
+    background: #A8ADB7;
+}
+.play-list-manager__wrapper div {
+    text-overflow: ellipsis;
+}
+.play-list-manager__wrapper ul {
+    padding: 0;
+    list-style: none;
+    margin: 0;
+}
+.play-list-manager__wrapper ul li {
+      display: flex;
+      height: 3.15rem;
+      margin: 0.45rem;
+      border-radius: 2px;
+      align-items: center;
+      background: #E2E4E9;
+      color: #707379;
+      cursor: pointer;
+}
+.play-list-manager__wrapper ul li.active {
+        background: #fff;
+}
+.play-list-manager__wrapper ul li.active .play-list-manager__tag-body {
+          font-weight: bold;
+}
+.play-list-manager__wrapper ul li.active .play-list-manager__drag-handle {
+          border-left: 1vw solid #2DA7EF;
+}
+.play-list-manager__wrapper ul li.active input {
+          font-weight: bold;
+}
+.play-list-manager__wrapper ul li:hover:not(.spacer) {
+        border-color: #2DA7EF;
+        background: #fff;
+}
+.play-list-manager__wrapper ul li:hover:not(.spacer) .play-list-manager__tag-body,
+        .play-list-manager__wrapper ul li:hover:not(.spacer) .play-list-manager__menu {
+          color: #2DA7EF;
+}
+.play-list-manager__wrapper ul li:hover:not(.spacer) .play-list-manager__menu {
+          display: block;
+}
+.play-list-manager__wrapper ul li:hover:not(.spacer) input {
+          color: #2DA7EF;
+}
+.play-list-manager__wrapper ul .spacer {
+      background: transparent;
+      height: 0.45rem;
+}
+.play-list-manager__menu {
+  display: none;
+}
+.play-list-manager__input span {
+  color: #A8ADB7;
+}
+.play-list-manager__input input {
+  background: transparent;
+  border-radius: 2px;
+  height: 100%;
+  padding-left: 0.9rem;
+  font-size: 1rem;
+}
+.play-list-manager__input input::-webkit-input-placeholder {
+    color: #A8ADB7;
+}
+.play-list-manager__input input:-moz-placeholder {
+    color: #A8ADB7;
+}
+.play-list-manager__input input::-moz-placeholder {
+    color: #A8ADB7;
+}
+.play-list-manager__create:before {
+  position: absolute;
+  transform: rotate(-53.4deg);
+  transform-origin: 5.8rem 3.5rem;
+  font-size: 0.8rem;
+  color: #E2E4E9;
+  content: 'CREATE';
+  pointer-events: none;
+}
+</style><style type="text/css">
+.play-list {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.play-list__greeting {
+  margin: 0.9rem 0 0.9rem 0;
+  width: 100%;
+  text-align: center;
+  line-height: 1.5rem;
+  font-size: 1.2rem;
+}
+.play-list__greeting [class^='wmp-icon'] {
+    height: 1.35rem;
+}
+.play-list__greeting [class^='wmp-icon']:before {
+      font-size: 1em;
+}
+.play-list__greeting span {
+    cursor: pointer;
+}
+.play-list__greeting > div {
+    margin-top: 1.35rem;
+}
+.play-list__greeting > div > button.button {
+      width: 15.75rem;
+      margin-top: 0.9rem;
+      height: 3.15rem;
+}
+.play-list__body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.play-list-footer {
+  background: #EFF1F7;
+  color: #A8ADB7;
+  display: flex;
+  font-size: 0.7rem;
+  overflow: hidden;
+}
+.play-list-footer [class^="wmp-icon"] {
+    height: 1.8rem;
+    width: 2.25rem;
+}
+.play-list-footer ul {
+    flex: 1;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    display: flex;
+    width: 100%;
+    height: 2.25rem;
+}
+.play-list-footer ul li {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      white-space: nowrap;
+      transition: all 250ms;
+}
+.play-list-footer ul li:not(.play-list-footer--info) {
+        cursor: pointer;
+        text-transform: uppercase;
+}
+.play-list-footer ul li.active, .play-list-footer ul li:hover:not(.play-list-footer--info) {
+        background: #C8CCD5;
+        color: #fff;
+}
+.play-list-footer__search {
+  max-width: 3.15rem;
+  height: 2.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+.play-list-footer__search:hover:not(.active) {
+    background: #C8CCD5;
+    color: #fff;
+}
+.play-list-footer__search.active {
+    max-width: 100%;
+    width: 100%;
+}
+.play-list-footer__search.active span,
+    .play-list-footer__search.active input {
+      background: #fff;
+      border: none;
+      border-top: 1px solid #C8CCD5;
+      height: 2.25rem;
+}
+.play-list-footer__search span {
+    height: 2.25rem;
+    width: 3.15rem;
+}
+.play-list-footer__search input {
+    flex: 1;
+}
+.play-list__jump-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: 4.05rem;
+}
+.play-list__jump-header,
+.play-list__import-header {
+  font-size: 1.5em;
+}
+.play-list__jump-header span,
+  .play-list__import-header span {
+    font-size: 0.8em;
+    cursor: pointer;
+}
+.play-list__import-header {
+  position: relative;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 0.45rem;
+}
+.play-list__import-header > div {
+    height: 3.15rem;
+    line-height: 3.15rem;
+}
+.play-list__import-header span {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.play-list__import {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.45rem;
+}
+.play-list__import .button,
+  .play-list__import input,
+  .play-list__import select,
+  .play-list__import form {
+    width: 14rem;
+    margin-bottom: 0.9rem;
+}
+.play-list__import input {
+    height: 2.25rem;
+}
+.play-list__import input::-webkit-input-placeholder {
+      color: #C8CCD5;
+}
+.play-list__import input:-moz-placeholder {
+      color: #C8CCD5;
+}
+.play-list__import input::-moz-placeholder {
+      color: #C8CCD5;
+}
+.play-list__import .play-list__import-url {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.play-list__import form span {
+    font-size: 0.8rem;
+}
+#import-playlist {
+  display: none;
+}
+#import-playlist + label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.play-list__load-more {
+  padding-left: 3.15rem;
+  height: 3.15rem;
+  display: flex;
+  align-items: center;
+  color: #C8CCD5;
+  cursor: pointer;
+}
+.play-list__load-more:hover {
+    background: #EFF1F7;
+}
+.play-list-manager__tag-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+.play-list-manager__tag-body > div {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.play-list-manager__tag-body > div:last-child {
+      font-size: 0.7em;
+}
+.play-list-manager__tag-body input {
+    font-size: 1rem;
+    color: #707379;
+}
+.play-list-manager__drag-handle {
+  min-width: 0.9rem;
+  height: 100%;
+}
+.play-list-manager__drag-handle:not(.play-list-manager--default) {
+    cursor: move;
+}
+.play-list-manager__menu {
+  display: none;
+}
+li ~ .play-list-manager__tag-body {
+  display: none;
+}
+.play-list-manager__tag-drop-zone {
+  flex: 1;
+  overflow: hidden;
+}
+.play-list-manager__tags .play-list-manager__tag-name-input {
+  height: 1.35rem;
+}
+</style><style type="text/css">
+.main-right {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 50%;
+  position: relative;
+}
+.main-right__content {
+  flex: 1;
+  overflow-y: auto;
+}
+.main-right__width-handle {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: transparent;
+  width: 0.225rem;
+  z-index: 8;
+  cursor: ew-resize;
+}
+.main-right__drag-handle {
+  height: 0.225rem;
+  width: 100%;
+  background: transparent;
+  cursor: ns-resize;
+}
+</style><style type="text/css">
+.wmp-about {
+  padding: 0.45rem;
+}
+.wmp-about [class^="wmp-icon-"] {
+    height: .5rem;
+    width: 1.5rem;
+}
+.wmp-about a {
+    cursor: pointer;
+    text-decoration: underline;
+}
+.wmp-about ul {
+    padding: 0;
+    list-style: none;
+}
+.wmp-about ul li {
+      margin-bottom: 0.45rem;
+}
+.wmp-about ol {
+    margin: 0;
+    padding: 1em;
+}
+.wmp-about ol li {
+      margin-bottom: 0.45rem;
+}
+.wmp-about dl dt {
+    float: left;
+    width: 4em;
+    font-weight: bold;
+    padding-left: 0.45rem;
+}
+.wmp-about dl dt:nth-child(4n+1) {
+      background: #EFF1F7;
+}
+.wmp-about dl dd {
+    margin-left: 0;
+}
+.wmp-about dl dd:nth-child(4n+2) {
+      background: #EFF1F7;
+}
+.wmp-about dl dt,
+  .wmp-about dl dd {
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+}
+.wmp-about pre {
+    font-size: .7rem;
+    white-space: inherit;
+    overflow: auto;
+}
+.about-player__community-btns {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.about-player__community-btns > * {
+    margin-right: 0.45rem;
+}
+</style><style type="text/css">
+.queue {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow: hidden;
+}
+.queue .media-list {
+    flex: 1;
+    width: 100%;
+}
+.queue__hint {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.queue__hint span {
+    font-size: .7em;
+}
+</style><style type="text/css">
+.media-player {
+  height: 33%;
+  overflow: hidden;
+  border-top: 1px solid #C8CCD5;
+  position: relative;
+  background: #EFF1F7;
+}
+.media-player.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100% !important;
+    z-index: 1;
+}
+.media-player [class^="wmp-icon-fullscreen"] {
+    position: absolute;
+    bottom: 0.675rem;
+    right: 0.675rem;
+    color: #fff;
+    z-index: 12;
+    cursor: pointer;
+    transition: all 250ms;
+    opacity: 1;
+}
+.media-player--hide.media-player--hide {
+  opacity: 0;
+}
+.media-player__logo {
+  position: absolute;
+  top: 2.25rem;
+  right: 0.9rem;
+  cursor: pointer;
+  height: 1.1rem;
+  z-index: 13;
+}
+.media-player__header {
+  position: absolute;
+  width: 80%;
+  left: 10%;
+  padding-top: 0.9rem;
+  text-align: center;
+  color: #fff;
+  opacity: 1;
+  z-index: 12;
+}
+.media-player__yt-player {
+  height: 100%;
+}
+.media-player__yt-player.media-player--hide-yt-player {
+    height: 1%;
+}
+span.media-player__full-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  color: #fff;
+  z-index: 13;
+}
+.media-player__prev,
+.media-player__next {
+  transition: all 250ms;
+  opacity: 1;
+  position: absolute;
+  z-index: 12;
+  height: 60%;
+  top: 20%;
+  width: 12%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  color: #EFF1F7;
+  cursor: pointer;
+}
+.media-player__next {
+  right: 0;
+}
+</style><style type="text/css">
+.youtube-player {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #A8ADB7;
+}
+</style><style type="text/css">
+.video-player {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  background: #000;
+}
+</style><style type="text/css">
+.messages {
+  position: fixed;
+  top: 0.45rem;
+  right: 0.45rem;
+  z-index: 15;
+}
+.messages > div {
+    margin-bottom: 0.45rem;
+}
+.messages__message {
+  font-size: .8em;
+  border-radius: 2px;
+  background: #d0021b;
+  color: #fff;
+  padding: 0.9rem;
+}
+</style><script src="https://www.youtube.com/iframe_api"></script><script src="https://player.vimeo.com/api/player.js"></script><script type="text/javascript" charset="utf-8" async="" src="2.app.js"></script><style type="text/css">
+.settings h1 {
+  text-align: center;
+}
+.settings h3 {
+  padding-left: 0.45rem;
+}
+.settings p, .settings .settings__buttons {
+  padding: 0.45rem;
+}
+.settings__buttons .button {
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+#settings-backup {
+  display: none;
+}
+#settings-backup + label {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+</style><script type="text/javascript" charset="utf-8" async="" src="1.app.js"></script><style type="text/css">
+.matrix-room__menu {
+  display: none;
+}
+.matrix-room {
+  color: #fff;
+}
+.matrix-room .modal__body {
+    color: #707379;
+}
+.matrix-room__room-join-create:before,
+.matrix-room__room-list:before {
+  position: absolute;
+  transform: rotate(-53.4deg);
+  transform-origin: 5.8rem 3.5rem;
+  font-size: 0.8rem;
+  color: #E2E4E9;
+  pointer-events: none;
+}
+.matrix-room__room-list:before {
+  content: 'ROOMS';
+}
+.matrix-room__room-join-create:before {
+  content: 'CREATE';
+}
+.matrix-room__logging-in,
+.play-list-manager__enable-matrix {
+  width: 100%;
+  text-align: center;
+  padding: 0 0.45rem;
+  margin-top: 3.15rem;
+}
+.play-list-manager__room-suggestions {
+  margin: 0.45rem;
+  text-align: center;
+}
+.play-list-manager__room-suggestions span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+.play-list-manager__room-suggestions > button.button {
+    padding: 0 0.9rem;
+    display: inline-flex;
+    align-items: center;
+}
+.play-list-manager__room-suggestions > button.button > span {
+      margin-right: 0.9rem;
+}
+</style><style type="text/css">
+.matrix-create input {
+  width: 100%;
+  margin-bottom: 0.45rem;
+}
+</style><style type="text/css">
+.matrix-create input {
+  width: 100%;
+  margin-bottom: 0.45rem;
+}
+.matrix-public-rooms__buttons {
+  display: flex;
+  flex-wrap: wrap;
+}
+.matrix-public-rooms__buttons > * {
+    margin: 0 0.45rem 0.45rem 0;
+}
+</style></head>
+<body id="audius-website">
+	<div id="audius-website" class="web-app"><div class="web-app__desktop"><header><div class="au-header__search"><div><img src="img/audius.logo.white.svg" alt="Audius - music player - logo" class="au-header__logo"> <i>2.0.11</i></div> <div class="au-header__search-controls"><div class="au-header__search-input-group"><span title="[f] Search YouTube or URL" class="wmp-icon-search"></span> <input type="text" placeholder="Search" class="au-header__search-input"> <span class="wmp-icon-close" style="display: none;"></span></div> <span title="Toggle playlist / matrix / web" class="wmp-icon-queue_music"></span> <span title="Settings" class="wmp-icon-more_vert"></span></div></div> <div class="au-header__control-bar"><div class="au-header__current-song"><!----> <!----></div> <div disabled="disabled" class="au-header__controls"><span title="Previous song" disabled="disabled" class="wmp-icon-previous"></span> <div class="au-header__play-pause"><span title="[c] Play" class="wmp-icon-play"></span></div> <span title="[b] Next song" class="wmp-icon-next"></span> <div class="spacer"></div> <div class="au-header__controls-small"><span title="[s] Shuffle" class="au-header__shuffle wmp-icon-shuffle active"></span> <div class="au-header__repeat"><!----> <!----> <span title="Repeat" class="wmp-icon-repeat"></span></div> <div title="Mute" class="au-header__mute"><span class="wmp-icon-volume_up"></span></div> <div><span title="Fullscreen" class="wmp-icon-fullscreen"></span></div></div></div></div> <div class="au-header__progress"><div class="au-header__progress-inner"><!----></div> <div class="au-header__progress-mouse" style="left: 294px;"></div> <div draggable="true" title="drag start limit" class="au-header__progress-limit-start" style="left: 0%;"></div> <div draggable="true" title="drag stop limit" class="au-header__progress-limit-stop" style="right: 0%;"></div></div></header> <main class="box"><div class="left-menu hide"><div title="Playlists" class="nav-handle"><div class="nav-handle__tab"></div> <span class="wmp-icon-queue_music"></span></div> <ul class="tabs"><li class="">Playlist</li> <li class="active">Rooms</li> <li class="">Channels</li></ul> <div class="left-menu__wrapper"><div class="play-list-manager__wrapper" style="display: none;"><ul><li class="play-list-manager__default-playlist active"><div class="play-list-manager__drag-handle play-list-manager--default"></div> <div class="play-list-manager__tag-drop-zone"><div class="play-list-manager__tag-body"><div>Default</div> <div>0 Songs</div></div></div></li> <li class="spacer"></li></ul> <ul class="play-list-manager__tags"></ul> <ul class="play-list-manager__tags"><li class="play-list-manager__input"><div class="play-list-manager__tag-body"><input type="text" placeholder="... new playlist"></div> <div class="play-list-manager__create"><span class="wmp-icon-add"></span></div></li></ul></div> <div class="matrix-room play-list-manager__wrapper"><!----> <div class="play-list-manager__enable-matrix"><a href="https://matrix.org/" target="_blank">Matrix</a> is a chat network that allows you to share music and videos with your friends. Press the button to create a guest user and join Matrix.
+		<br> <br> <button type="button" class="button btn--blue">Join Matrix</button></div> <!----> <!----> <!----> <!----> <ul class="matrix-room__tags"></ul> <ul class="matrix-room__tags"><!----></ul> <!----></div> <!----></div> <div class="left-menu__drag-handle"></div></div> <div class="web-app__main"><div class="play-list"><div class="play-list__body"><div class="play-list__greeting"><div>
+				Your playlist is empty
+			</div> <div>
+				Find music and videos you love <br> <button class="button btn--blue">
+					Search
+				</button></div> <div>
+				Join a room and share your discoveries <br> <button class="button btn--blue">join room</button></div> <div>
+				Watch funny videos from Imgur <br> <button class="button btn--blue">watch imgur</button></div> <div>
+				Add some songs to your playlist <br> <button class="button btn--blue">add music</button></div></div> <div class="play-list__import" style="display: none;"><div class="play-list__import-header"><div> Import playlist </div> <span title="[Esc] Close" class="wmp-icon-close"></span></div> <input type="file" id="import-playlist" title="Import playlist from file"> <label for="import-playlist" class="button btn--blue">from file</label> <button class="button btn--blue">from web</button> <div class="play-list__import-url" style="display: none;"><span class="smaller">Import Audius, YouTube, Streamly playlists</span> <input type="text" placeholder="… https://api.myjson.com/bins/122zfl" class="play-list__import-url-input input--border"> <button class="button btn--blue">load</button></div> <button class="button btn--blue">other playlist</button> <!----></div> <!----> <div class="play-list__jump-header" style="display: none;"><div> Jump to file </div> <span title="[Esc] Close" class="wmp-icon-close"></span></div> <div><!----> <!----> <ul class="media-list"></ul> <!----> <!----> <!----> <!----></div></div> <div class="play-list-footer"><ul><li class="play-list-footer--info">
+				0 Songs
+			</li> <li class=""><span class="wmp-icon-add"></span> Add
+			</li> <li title="Share and save" class=""><span class="wmp-icon-share"></span>
+				Share
+			</li></ul> <div class="play-list-footer__search"><span title="[j] Jump to file" class="wmp-icon-search"></span> <input type="text" placeholder="Jump to" class="play-list-footer__search-input" style="display: none;"> <span class="wmp-icon-close" style="display: none;"></span></div></div></div> <div class="main-right"><div class="main-right__width-handle"></div> <ul class="tabs"><li class="">
+			Queue&nbsp;<!----></li> <!----> <li class="">About</li> <!----> <!----> <!----> <li class="active">Settings</li></ul> <div class="main-right__content"><div class="wmp-about" style="display: none;"><h2>Keyboard shortcuts</h2> <p></p><dl><dt>c</dt> <dd>Play / pause</dd> <dt>b</dt> <dd>Next song</dd> <dt>s</dt> <dd>Shuffle on / off</dd> <dt>m</dt> <dd>Mute / unmute</dd> <dt>j</dt> <dd>Jump to song</dd> <dt>f</dt> <dd>Find song on YouTube</dd></dl> <p></p> <h2 id="community">Community</h2> <p>
+		If you have questions or feedback, join the chat on matrix (#audius:matrix.org) or create an issue on github.<br></p><div class="about-player__community-btns"><a href="https://riot.im/app/#/room/#audius:matrix.org" target="_blank" class="button btn--blue gitter-chat">Join chat</a> <a href="https://github.com/select/audius/issues" target="_blank" class="button btn--blue">Create issue</a></div> <p></p> <h2 id="matrix">Share your music with Matrix</h2> <p><a href="https://matrix.org/" target="_blank">Matrix</a> is a chat network that allows you to share songs with Audius.
+	</p> <p></p> <div class="about-player__community-btns"><button class="button btn--blue">Join a room</button></div> <p>
+		You can drag and drop songs on the room names in the matrix tab or add search results!
+		<b>Create your own rooms</b> and share them with your friends.
+		Already have an account from <a href="https://riot.im/app/" target="_blank">Riot</a> or <a href="https://matrix.org/docs/projects/try-matrix-now.html#clients" target="_blank">another client</a>? Login with your username in the Audius <a>settings</a>.
+	</p> <h2 id="extension">Extension and web channels</h2> <p><a href="https://chrome.google.com/webstore/detail/ekpajajepcojhnjmlibfbjmdjcafajoh" target="_blank">The Audius extension</a> helps to search external webpages. It is required when you create or import <a>web channels <span title="Toggle playlists" class="wmp-icon-queue_music"></span></a>. Web channels are still in development, currently they allow you to search on your favorite website for sounds and videos.
+	</p> <h2>Change log</h2> <p><b>2.0.11</b><br> <ul><li><a>Backup and recover</a> your Audius data.</li> <li> Added media sharing UI.</li> <li> Improved Audius logo. Thanks <a href="http://buryat.me" target="_blank"><i>Buryat</i></a>.</li> <li> Show matrix login for rooms that don't allow guests.</li></ul> <b>2.0.10</b><br> <ul><li> Add full screen mode for continous full screen playback. Add controls for prev, next, timeline.</li> <li> Custom channel scripts, executed in secure sandbox in extension.</li> <li> Change user interface to less technical language. Thanks <i>Caspar</i>.</li> <li> Improve matrix room creation and settings: guest access, history readability. Only full members can create rooms.</li></ul> <b>2.0.9</b><br> <ul><li> Improved mobile UI.</li> <li> Improved search media link detection.</li> <li> Don't open queue on add just indicate new media added. Thanks <i>lazz</i>.</li> <li> Show error when extension is needed.</li></ul> <b>2.0.8</b><br> <ul><li> Import <a href="https://github.com/LNFWebsite/Streamly" target="_blank">Streamly</a> playlist.</li> <li> Discover public Matrix rooms.</li> <li> Create Matrix rooms.</li> <li> Allow admins to remove messages from rooms.</li></ul> <b>2.0.7</b><br> <ul><li> Vimeo video player integrated.</li> <li> Better support for YouTube playlists: import from search results.</li> <li> Resize left menu, video player, and playlist with drag.</li> <li> Show confirm remove popups.</li> <li> More error checks and error messages.</li> <li> Replace gitter support chat with links to <a href="#community">Audius matrix room</a>.</li> <li> Fixed queue sorting.</li></ul> <b>2.0.6</b><br> <ul><li><a href="#extension">Extension</a> for searching external websites for content.</li> <li> Share playlists, matrix rooms, and web channels with one click links.</li> <li> Add your own web channels with URL patterns (needs extension).</li> <li> Matrix pagination working. </li> <li> Share media in <a href="#matrix">matrix room</a> with drag and drop.</li> <li> Import YouTube playlists (import FROM WEB / Search) max 50 songs currently.</li></ul> <b>2.0.5</b><br> <ul><li> Bug fix release: YouTube skip, YouTube URLs in search, mobile version, d&amp;d search results, history for all played items.</li></ul> <b>2.0.4</b><br> <ul><li> Drag and drop to copy songs between playlists and queue.</li> <li> Sort queue with drag and drop.</li> <li> Added repeat for one song, all songs (only if shuffle is not active).</li> <li> Added support for web scraper TV stations (Imgur for now, more planned).</li> <li> Basic support for mobile screens (next release will add full mobile support).</li></ul> <b>2.0.3</b><br> <ul><li> Improved header timeline design.</li> <li> Improved sharing playlist with direct import URLs.</li> <li> Added support for web video .mp4 .webm .ogg URLs.</li> <li> Added draggable start stop limits for media (hover over timeline).</li> <li> Added support for album tracks.</li></ul> <b>2.0.2</b><br> <ul><li> Drag and drop search results into the current playlist.</li> <li> Support for .mp3 .oga .wav URLs (paste into search box).</li> <li> Experimental support for <a target="_blank" href="https://matrix.org/">Matrix.org</a> radio stations.</li> <li> Store and list the 5 last web exports.</li></ul> <b>2.0.1</b><br> <ul><li> Replaced Redux with Vuex. </li> <li> Fixed playlist sorting. </li> <li> Fixed Firefox layout problems. </li> <li> Fixed, shuffle does not play same songs again. </li> <li> New (import)/export using <a target="_blank" href="http://myjson.com/">myjson.com</a>. </li></ul></p> <h2>Install Audius as app</h2> <p><b>Chrome desktop:</b> <ol><li> At the top right, click <i>More</i> (Icon <span class="wmp-icon-more_vert" style="font-size: 0.7em; display: inline-block; height: 1em; width: 1.3em;"></span>). </li> <li> Click <i>More Tools</i>. </li> <li> Add the app:<br>
+			Windows users: Click <i>Add to taskbar</i>.<br>
+			Linux users: Click <i>Add to desktop</i>.<br>
+			Chromebook users: Click <i>Add to shelf</i>. </li></ol> <b>Chrome android:</b><br>
+		Tap the menu button and tap <i>Add to homescreen</i>. The app is not yet optimized for mobile phones, it might work on tablets.
+	</p> <p><b>Local HTML5:</b><br>
+		Since this player is a pure HTML5 app without server side code you can simply download the HTML and JS code and run it from a local file.
+		 You can also download the latest version from the <a href="#source-code">source code</a> repository at github. <br></p> <p>
+		Why use the web version then?
+		<ol><li>
+				A click on "reload page" will pull the latests updates.
+			</li> <li>
+				I recognized that using this app from a local file blocks a lot of videos on YouTube (e.g. all Vevo videos) :(
+			</li> <li>
+				IndexDB, the browser database, does not work with file:// URLs, therefore Audius can not store your playlists etc. permanently.
+			</li></ol></p> <h2>Legality, security, saftey, and privacy</h2> <p><ul><li><b>Legality</b> This app sould be completely legal since it streams audio and videos from other providers.
+			I do not provide any links to streams (except for the initial playlist containing only legal links from my friends). Please mind what you are sharing.</li> <li><b>Security</b> This app is open source so you can make sure that there is no malicious code included.
+			In addition to that there is no advertisement that could spread malicious code.
+			But to be clear streams and streaming APIs are provided by external entites ... read more below about privacy.</li> <li><b>Safety</b> If you back up your playlist (and this app, it runs offline) to a file it will continue working even if this server goes down. Do back up your precius playlists now!</li> <li><b>Privacy</b> This app stores all your data in your browser (Menu &gt; More tools &gt; Developer tools &gt; Application &gt; IndexDB), nothing is saved on my server.
+			I currently do not use any analytics tool (though it's very tempting).
+			The streams however are provided by external entities (Google-YouTube) that will track you.
+			As stated before I currently have no intentions of showing external advertisement.
+			I think if Audius gets popular there are nicer ways to profit from it.</li></ul></p> <p>
+		Web apps are true freedom! Support an open and liberal web without geo borders and login screens.
+	</p> <h2>System requirements</h2> <p><ul><li><a href="https://vivaldi.com/download/" target="_blank">Vivaldi</a></li> <li> Chrome &gt;= 51 </li> <li> FireFox &gt;= 49 </li> <li> Internet Explorer &amp; Safari ... not supported, might work though </li></ul></p> <h2 id="source-code">Source code</h2> <p>
+		The source code for this project is located at <a href="https://github.com/select/audius" title="Source code on select@github audius" target="_blank">https://github.com/select/audius</a>.
+	</p> <p>
+		If you like this project give it a star ★ and contribute some code!
+	</p> <h2>Migration from Streamus</h2> <p>
+		On Linux use <a href="https://github.com/select/audius/blob/master/src/scripts/streamus-export.sh" target="_blank">this script</a> I created to dump the Streamus WebSql to a JSON file.
+		The JSON can be imported using the IMPORT button below the playlist. Use the script like this:
+		<pre>./streamus-export.sh ~/.config/google-chrome/Profile\ 1/Local\ Storage/chrome-extension_jbnkffmindojffecdhbbmekbmkkfpmjd_0.localstorage
+		</pre>
+		Be sure to validate the JSON output, the script is just a quick hack and you might have to tweak it.
+	</p> <h2 id="motivation">Motivation</h2> <p>
+		The extension (currently revived) should have been the actual player since the original idea was to create a Chrome/FireFox extension with a media player for <i>web.whatsapp.com</i>. After struggeling alot with <a href="https://stackoverflow.com/questions/40309872/youtube-video-in-chrome-extension-content-script" target="_blank">getting the YouTube player to run in an extension content script</a> the plan completely failed when the <a href="https://content-security-policy.com/" target="_blank">content security policy</a> did not allow the embdding of youtube videos. Even though it should be possible to overwrite the header fields for the content security policy of web.whatsapp.com I could not get it to work (it worked on every page <a href="https://stackoverflow.com/questions/40322156/chrome-extension-can-not-get-header-with-onheadersreceived" target="_blank">except web.whatsapp.com</a>). That meant no YouTube player, no music. The only way out of this mess was to create an extension with a content script (grabs links from the current page) that communicates with a background script (relays found links) that in turn communicates with the a main player (this web app, that plays the songs). But this also meant that I had to write an extension and a web app. Well what the heck, I was still using the Streamus player (a Chrome extension that was killed by google) but over the time less and less worked so I needed a replacement anyway. I tried <a href="https://www.tomahawk-player.org/" target="_blank">tomahawk</a> and it seemed quite promising, but I just could not get it to work with dragged in or paste in <a href="https://github.com/tomahawk-player/tomahawk-resolvers/issues/126">youtube links</a>. Also the search was quite slow and did not show many results. This kind of left me no other option but to write Audius.
+	</p> <p>
+		In the summer before I started with Audius, I created a Chrome app (oh stupid me, 2 weeks before Google announced the death of Chrome apps I release the first version) for watching funny videos from popular sites like Imgur and 9gag. <a href="https://github.com/select/boomnext/" target="_blank">Boom, next video!</a> was the result of an idea that I played around with for a long time but never fully realized. Then some day the awesome <a href="https://twitter.com/5by">5by</a> app was created, which had everything I really wanted: a continous stream of fresh and fun content with no user interaction necessary, just like TV, start it and turn off your brain. But 5by did not survive long and I forgot about it, until last summer when I recreated it. It was fun, it was absolutely addictive. But then Google killed Chrome apps and since I used core components from <i>Boom, next</i> already in Audius I started to integrate some more features.
+	</p> <p>
+		As Audius evolved I tried out new technologies, one of them the Matrix chat network. Matrix is similar to email (multiple federated servers) and offers open and encryped real time file, data and chat message transfer. This was a fun opportunity to create a new medium for the music chat rooms that I am part of. Music chat rooms are the best way to break out of filter bubbles from services that use algorithms, they allow you to discover new music your friends and strangers curate for you.
+	</p> <p>
+		Here are some alternatives to Audius that are also interesting:
+		<ul><li><a href="https://lnfwebsite.github.io/Streamly" target="_blank">Streamly</a></li> <li><a href="http://streamsquid.com/" target="_blank">StreamSquid</a></li> <li><a href="https://mycloudplayers.com" target="_blank">My Cloud Player</a></li></ul>
+		Just look at them and appreciate the simplicity of the Audius interface ... wait what don't leave X-D
+	</p> <h2>Credits</h2> <p>
+		This work is inspired by the incredible <a href="https://www.reddit.com/r/streamus/" target="_blank">Streamus</a> app.<br></p> <p>
+		Here are the tools I used to create Audius.
+		<ul><li>VueJs</li> <li><span style="text-decoration: line-through;">Redux</span> Vuex</li> <li>Icomoon + Google material icons</li> <li>Webpack + Plugins</li> <li>LivingStyleGuide</li> <li><a href="https://rubaxa.github.io/Sortable/">SortableJS</a>; vuedraggable</li> <li><a target="_blank" href="http://myjson.com/">Myjson.com</a></li> <li>Matrix</li> <li>Imgur</li></ul></p></div> <!----> <div class="queue" style="display: none;"><ul class="media-list"><li class="queue__hint">
+			... queue with <span class="wmp-icon-queue2"></span> or drag and drop
+		</li></ul> <ul class="media-list"></ul></div> <!----> <!----> <!----> <div class="settings"><h1>Settings</h1> <h3>Backup</h3> <p><button class="button btn--blue">Save backup</button> <button title="Load backup from file" class="button btn--blue-ghost">Load backup</button></p> <!----> <h3>Extension</h3> <p>
+		Then extension is <span><b>not installed</b>. You can install it from the <a href="https://chrome.google.com/webstore/detail/ekpajajepcojhnjmlibfbjmdjcafajoh" target="_blank">Chrome web store</a>. If you just installed it please reload this page and this message will disappear</span>.
+	</p> <h3>YouTube</h3> <p>
+		YouTube API key
+		<input type="text" placeholder="… 39 digit API key" class="input--border"> <br> <span class="smaller">Create your own key in the <a href="https://console.developers.google.com/" target="_blank">Google Developers Console</a></span></p> <h3>Matrix</h3> <div class="settings__buttons"><div class="button btn--blue">enable Matrix</div></div> <!----></div></div> <div class="main-right__drag-handle"></div> <div class="media-player"><div class="media-player--hide"><div title="Previous" class="media-player__prev">‹</div> <div title="Next" class="media-player__next">›</div></div> <!----> <span title="Fullscreen" class="wmp-icon-fullscreen media-player--hide"></span> <div class="media-player__header media-player--hide"></div> <div class="media-player__yt-player media-player--hide-yt-player"><div class="youtube-player"><iframe id="youtube-iframe" frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media" title="YouTube video player" width="100%" height="100%" src="https://www.youtube.com/embed/strzXKsfRMs?controls=0&amp;enablejsapi=1&amp;widgetid=1"></iframe></div></div> <div class="media-player__yt-player media-player--hide-yt-player"><div class="youtube-player"><iframe src="https://player.vimeo.com/video/76979871" width="100%" height="100%" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen="allowfullscreen" class="vimeo-player" data-ready="true"></iframe></div></div> <video src="" class="video-player">
+	Sorry, your browser doesn't support embedded videos.
+</video> <div class="au-header__progress"><div class="au-header__progress-inner"><!----></div> <div class="au-header__progress-mouse"></div> <div draggable="true" title="drag start limit" class="au-header__progress-limit-start" style="left: 0%;"></div> <div draggable="true" title="drag stop limit" class="au-header__progress-limit-stop" style="right: 0%;"></div></div></div></div></div></main></div> <!----> <!----> <div class="messages"></div></div>
+
+
+</body></html>

@@ -193,7 +193,7 @@ export default {
 				</button>
 			</div>
 			<div>
-				Join a room and share your discoveries <br>
+				ㅋ <br>
 				<button
 					@click="setLeftMenuTab('radio')"
 					class="button btn--blue">join room</button>
